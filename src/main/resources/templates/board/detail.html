@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/default}">
+<div layout:fragment="content">
+    <div class="card">
+        <div class="card-header">
+            <h2 th:text="${board.title}">제목</h2>
+            <div class="d-flex justify-content-between">
+                <span th:text="${board.writer}">작성자</span>
+                <span th:text="${#temporals.format(board.createdDate, 'yyyy-MM-dd HH:mm')}">작성일</span>
+            </div>
+        </div>
+        <div class="card-body">
+            <p class="card-text" style="white-space: pre-line;" th:text="${board.content}">내용</p>
+        </div>
+    </div>
+
+    <div class="mt-3 d-flex justify-content-between">
+        <div>
+            <a href="/" class="btn btn-secondary">목록</a>
+        </div>
+        <div>
+            <a th:href="@{/board/{id}/edit(id=${board.id})}" class="btn btn-primary">수정</a>
+            <form th:action="@{/board/{id}/delete(id=${board.id})}" method="post" style="display: inline;">
+                <button type="submit" class="btn btn-danger" onclick="return confirm('정말 삭제하시겠습니까?')">삭제</button>
+            </form>
+        </div>
+    </div>
+</div>
+</html>

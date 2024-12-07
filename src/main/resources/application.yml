@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: board-v1
+  datasource:
+    url: jdbc:postgresql://localhost:5432/board_v1
+    username: leejaehak    # 현재 시스템 사용자 이름으로 변경
+    password:              # 로컬 개발 환경이므로 비밀번호 없음
+    driver-class-name: org.postgresql.Driver
+
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
+    # SQL 쿼리 로그 출력
+    log-impl: org.apache.ibatis.logging.slf4j.Slf4jImpl
+
+server:
+  port: 8081
