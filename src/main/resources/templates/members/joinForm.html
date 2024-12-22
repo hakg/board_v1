@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/default}">
+<div layout:fragment="content">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="text-center">회원가입</h3>
+                </div>
+                <div class="card-body">
+                    <div th:if="${error}" class="alert alert-danger" role="alert">
+                        <span th:text="${error}">에러 메시지</span>
+                    </div>
+                    <form th:action="@{/members/join}" th:object="${memberJoinRequest}" method="post" id="joinForm">
+                        <div class="mb-3">
+                            <label for="username" class="form-label">아이디</label>
+                            <input type="text" class="form-control" id="username" th:field="*{username}" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label">비밀번호</label>
+                            <input type="password" class="form-control" id="password" th:field="*{password}" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="passwordConfirm" class="form-label">비밀번호 확인</label>
+                            <div class="input-group">
+                                <input type="password" class="form-control" id="passwordConfirm" th:field="*{passwordConfirm}" required>
+                                <button type="button" class="btn btn-outline-primary" onclick="checkPassword()">확인</button>
+                            </div>
+                            <div id="passwordError" class="invalid-feedback" style="display: none;">
+                                비밀번호가 일치하지 않습니다.
+                            </div>
+                            <div id="passwordSuccess" class="valid-feedback" style="display: none;">
+                                비밀번호가 일치합니다.
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">이메일</label>
+                            <input type="email" class="form-control" id="email" th:field="*{email}" required disabled>
+                        </div>
+                        <div class="mb-3">
+                            <label for="name" class="form-label">이름</label>
+                            <input type="text" class="form-control" id="name" th:field="*{name}" required disabled>
+                        </div>
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary" id="submitButton" disabled>가입하기</button>
+                            <a href="/login" class="btn btn-secondary">로그인으로 돌아가기</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<th:block layout:fragment="script">
+    <script th:inline="javascript">
+        function checkPassword() {
+            const password = document.getElementById('password').value;
+            const passwordConfirm = document.getElementById('passwordConfirm').value;
+            const submitButton = document.getElementById('submitButton');
+            const passwordError = document.getElementById('passwordError');
+            const passwordSuccess = document.getElementById('passwordSuccess');
+            const emailInput = document.getElementById('email');
+            const nameInput = document.getElementById('name');
+            
+            if (password === '' || passwordConfirm === '') {
+                submitButton.disabled = true;
+                passwordError.style.display = 'block';
+                passwordSuccess.style.display = 'none';
+                emailInput.disabled = true;
+                nameInput.disabled = true;
+                return;
+            }
+            
+            if (password === passwordConfirm) {
+                submitButton.disabled = false;
+                passwordError.style.display = 'none';
+                passwordSuccess.style.display = 'block';
+                emailInput.disabled = false;
+                nameInput.disabled = false;
+            } else {
+                submitButton.disabled = true;
+                passwordError.style.display = 'block';
+                passwordSuccess.style.display = 'none';
+                emailInput.disabled = true;
+                nameInput.disabled = true;
+            }
+        }
+
+        // 페이지 로드 시 초기 상태 설정
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('email').disabled = true;
+            document.getElementById('name').disabled = true;
+            document.getElementById('submitButton').disabled = true;
+        });
+    </script>
+</th:block>
+</html>

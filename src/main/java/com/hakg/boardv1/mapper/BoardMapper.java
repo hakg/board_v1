@@ -28,4 +28,10 @@ public interface BoardMapper {
     
     @Update("UPDATE board SET view_count = view_count + 1 WHERE id = #{id}")
     void incrementViewCount(Long id);
+    
+    @Select("SELECT * FROM board ORDER BY id DESC LIMIT #{size} OFFSET #{offset}")
+    List<Board> findAllWithPaging(@Param("offset") int offset, @Param("size") int size);
+
+    @Select("SELECT COUNT(*) FROM board")
+    int getTotalCount();
 }

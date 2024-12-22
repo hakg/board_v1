@@ -29,5 +29,32 @@
         </tr>
         </tbody>
     </table>
+
+    <!-- 페이징 -->
+    <div class="d-flex justify-content-center" th:if="${totalPages > 0}">
+        <nav>
+            <ul class="pagination">
+                <!-- 이전 페이지 -->
+                <li class="page-item" th:classappend="${currentPage == 1} ? 'disabled'">
+                    <a class="page-link" th:href="@{/board/list(page=${currentPage - 1})}" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+                
+                <!-- 페이지 번호 -->
+                <li class="page-item" th:each="pageNum : ${#numbers.sequence(1, totalPages)}"
+                    th:classappend="${pageNum == currentPage} ? 'active'">
+                    <a class="page-link" th:href="@{/board/list(page=${pageNum})}" th:text="${pageNum}">1</a>
+                </li>
+                
+                <!-- 다음 페이지 -->
+                <li class="page-item" th:classappend="${currentPage == totalPages} ? 'disabled'">
+                    <a class="page-link" th:href="@{/board/list(page=${currentPage + 1})}" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
 </div>
 </html>
